@@ -14,7 +14,7 @@ STAGING="/root/takeout"
 echo "Creating droplet $DROPLET_NAME..."
 DROPLET_ID=$(doctl compute droplet create "$DROPLET_NAME" \
   --region "$DO_REGION" \
-  --size s-2vcpu-4gb \
+  --size s-2vcpu-4gb-intel \
   --image ubuntu-24-04-x64 \
   --ssh-keys "$DO_SSH_KEY" \
   --no-header \
@@ -45,4 +45,6 @@ ssh $SSH_OPTS root@"$DROPLET_IP" "
 "
 
 echo "Done. Backup is running on droplet $DROPLET_ID and will self-destroy when complete."
-echo "To monitor: ssh root@$DROPLET_IP 'tail -f /root/run.log'"
+echo "To monitor: "
+echo "ssh root@$DROPLET_IP 'tail -f /root/run.log'"
+ssh root@$DROPLET_IP 'tail -f /root/run.log'

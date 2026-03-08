@@ -8,13 +8,13 @@ echo "Creating volume $VOLUME_NAME in region $REGION..."
 
 VOLUME_ID=$(doctl compute volume create "$VOLUME_NAME" \
   --region "$REGION" \
-  --size 2048 \
+  --size 2TiB \
   --no-header \
   --format ID)
 
 echo "Attaching volume $VOLUME_ID to droplet $DROPLET_ID..."
 
-doctl compute volume-action attach "$VOLUME_ID" --droplet-id "$DROPLET_ID" --wait
+doctl compute volume-action attach "$VOLUME_ID" "$DROPLET_ID" --wait
 
 VOLUME_DEVICE="/dev/disk/by-id/scsi-0DO_Volume_$VOLUME_NAME"
 
