@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+STAGING="$(dirname "$0")"
+
+bash "$STAGING/install.sh"
+
+# Discover this droplet's ID from the metadata API
+export DROPLET_ID=$(curl -s http://169.254.169.254/metadata/v1/id)
+
+# Create and attach volume (sets VOLUME_ID and VOLUME_DEVICE)
+source "$STAGING/create-volume.sh"
+
+bash "$STAGING/mount.sh"
+
+cp "$STAGING"/{backup.sh,rclone.conf,.envrc} "$REMOTE_DIR/"
+
+cd "$REMOTE_DIR"
+bash backup.sh
+
+echo "Backup done. Self-destructing..."
+umount "$REMOTE_DIR" || true
+
+doctl compute volume-action detach "$VOLUME_ID" --droplet-id "$DROPLET_ID" --wait
+doctl compute volume delete "$VOLUME_ID" --force
+doctl compute droplet delete "$DROPLET_ID" --force
