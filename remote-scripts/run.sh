@@ -3,6 +3,8 @@ set -euo pipefail
 
 STAGING="$(dirname "$0")"
 
+trap 'bash "$STAGING/cleanup.sh"' EXIT
+
 bash "$STAGING/install.sh"
 
 # Discover this droplet's ID from the metadata API
@@ -19,8 +21,3 @@ cd "$REMOTE_DIR"
 bash backup.sh
 
 echo "Backup done. Self-destructing..."
-umount "$REMOTE_DIR" || true
-
-doctl compute volume-action detach "$VOLUME_ID" --droplet-id "$DROPLET_ID" --wait
-doctl compute volume delete "$VOLUME_ID" --force
-doctl compute droplet delete "$DROPLET_ID" --force

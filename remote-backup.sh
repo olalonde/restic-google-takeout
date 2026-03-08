@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 DO_REGION="${DO_REGION:-nyc3}"
-DO_SSH_KEY="${DO_SSH_KEY:-mbair}"
+DO_SSH_KEY="${DO_SSH_KEY:-$(doctl compute ssh-key list --format ID --no-header | head -n 1)}"
 DO_TOKEN="${DIGITALOCEAN_ACCESS_TOKEN:-$(doctl auth token)}"
 DROPLET_NAME="google-takeout-backup-$(date +%Y%m%d-%H%M%S)"
 REMOTE_DIR="/mnt/takeout"
@@ -34,7 +34,7 @@ ssh $SSH_OPTS root@"$DROPLET_IP" "mkdir -p $STAGING"
 scp $SSH_OPTS \
   backup.sh rclone.conf .envrc \
   remote-scripts/install.sh remote-scripts/run.sh \
-  remote-scripts/create-volume.sh \
+  remote-scripts/create-volume.sh remote-scripts/cleanup.sh \
   root@"$DROPLET_IP":"$STAGING/"
 
 echo "Launching setup in background..."
