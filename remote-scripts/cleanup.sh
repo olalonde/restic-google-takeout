@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+LOG_DATE=$(date +%Y%m%d-%H%M%S)
+LOG_DEST="gdrive:logs/takeout-backup-run-${LOG_DATE}.log"
+
+echo "Uploading run.log to Google Drive as logs/takeout-backup-run-${LOG_DATE}.log..."
+rclone copyto /root/run.log "$LOG_DEST" --config /root/takeout/rclone.conf || \
+  echo "Warning: failed to upload run.log to Google Drive"
+
 echo "Cleaning up droplet, volume, and mounts..."
 echo "Droplet ID: ${DROPLET_ID:-}"
 echo "Volume ID: ${VOLUME_ID:-}"
