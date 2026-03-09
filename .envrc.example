@@ -1,0 +1,5 @@
+export RESTIC_HOST="hostname"
+export RESTIC_REPOSITORY="b2:your-bucket:restic/google-takeout"
+export RESTIC_PASSWORD="your restic password"
+export B2_ACCOUNT_ID="your b2 account id"
+export B2_ACCOUNT_KEY="your b2 account key"
