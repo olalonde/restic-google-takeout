@@ -1,22 +1,21 @@
 # Google Takeout backup using Restic
 
-Google Takeout backup using Restic. Runs remotely on a temporary DigitalOcean VM.
-
-Note: I build this script for myself so it's not super tested nor configurable,
-but it works well for my use case. 
-
-You can either run it locally with `./backup.sh` or remotely with `./remote-backup.sh`.
+Google Takeout backup using Restic. Runs either locally or remotely on a
+temporary DigitalOcean VM.
 
 When running locally, it will download the Google Takeout locally so make sure
 you have enough disk space and decent bandwidth. 
 
-When running remotely, this creates a temporary DitialOcean VM (droplet +
+When running remotely, it creates a temporary DitialOcean VM (droplet +
 volume) where it runs the backup. The resources self-destruct when the backup
-completes or if it fails. Cost is negligible since DO VMs come with a lot of
-free bandwidth and we're just using the droplet/volume for a short period.
+completes or fails. Cost is negligible since DO VMs come with a lot of
+free bandwidth and we're just using the VM for a short period.
 
 PS: make sure you select the `.zip` option and saving to Google Drive when
 generating your Google Takeout.
+
+Note: I build this script for myself so it's not super tested nor configurable,
+but it works well for my use case. 
 
 # Install
 
