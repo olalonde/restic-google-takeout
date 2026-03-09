@@ -65,14 +65,19 @@ doctl auth init
 
 ### Remotely
 
-Launches a DigitalOcean droplet + volume that downloads the `/Takeout` directory in your Google Drive (using rclone), unzips its files and backs it up using Restic. We unzip the files first to take full advantage of Restic deduplication. The droplet and volume are destroyed once the process is finished and a log file is written to your Google Drive's `/logs` directory.
+Useful if you don't have enough disk space to download the Takeout, have slow
+bandwidth or don't want to worry about keeping your computer on.
 
+Launches a DigitalOcean droplet + volume that downloads the `/Takeout` directory in your Google Drive (using rclone), and runs the backup script. The droplet and volume are destroyed once the process is finished and a log file is written to your Google Drive's `/logs` directory.
 
 ```bash
 ./remote-backup.sh
 ```
 
 ### Locally
+
+Downloads `Takeout/` from Google Drive. Unzips any zipped files to take full
+advantage of Restic deduplication. 
 
 ```bash
 ./backup.sh
