@@ -14,7 +14,7 @@ STAGING="/root/takeout"
 echo "Creating droplet $DROPLET_NAME..."
 DROPLET_ID=$(doctl compute droplet create "$DROPLET_NAME" \
   --region "$DO_REGION" \
-  --size s-2vcpu-4gb-intel \
+  --size s-2vcpu-4gb \
   --image ubuntu-24-04-x64 \
   --ssh-keys "$DO_SSH_KEY" \
   --no-header \
