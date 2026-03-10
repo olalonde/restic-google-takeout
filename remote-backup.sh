@@ -51,4 +51,4 @@ echo "Done. Backup is running on droplet $DROPLET_ID and will self-destroy when 
 echo "To monitor:"
 echo "  ssh root@$DROPLET_IP 'tail -f /root/run.log'"
 echo "To manually delete droplet and volume:"
-echo "  doctl compute droplet delete $DROPLET_ID --force && doctl compute volume delete takeout-scratch-$DROPLET_ID --force"
+echo "  doctl compute droplet delete $DROPLET_ID --force && doctl compute volume delete \$(doctl compute volume list --no-header --format ID,Name | awk '/takeout-scratch-$DROPLET_ID/{print \$1}') --force"
