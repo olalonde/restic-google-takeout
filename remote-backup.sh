@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 DO_REGION="${DO_REGION:-nyc3}"
 DO_SSH_KEY="${DO_SSH_KEY:-$(doctl compute ssh-key list --format ID --no-header | head -n 1)}"
 DO_TOKEN="${DIGITALOCEAN_ACCESS_TOKEN:-$(doctl auth token)}"
+DROPLET_SIZE="s-4vcpu-8gb"
 DROPLET_NAME="google-takeout-backup-$(date +%Y%m%d-%H%M%S)"
 REMOTE_DIR="/mnt/takeout"
 SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=10"
@@ -14,7 +15,7 @@ STAGING="/root/takeout"
 echo "Creating droplet $DROPLET_NAME..."
 DROPLET_ID=$(doctl compute droplet create "$DROPLET_NAME" \
   --region "$DO_REGION" \
-  --size s-2vcpu-4gb \
+  --size "$DROPLET_SIZE" \
   --image ubuntu-24-04-x64 \
   --ssh-keys "$DO_SSH_KEY" \
   --no-header \
@@ -47,4 +48,4 @@ ssh $SSH_OPTS root@"$DROPLET_IP" "
 echo "Done. Backup is running on droplet $DROPLET_ID and will self-destroy when complete."
 echo "To monitor: "
 echo "ssh root@$DROPLET_IP 'tail -f /root/run.log'"
-ssh root@$DROPLET_IP 'tail -f /root/run.log'
+# ssh root@$DROPLET_IP 'tail -f /root/run.log'
