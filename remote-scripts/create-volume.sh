@@ -2,7 +2,7 @@
 # Meant to be sourced from setup.sh
 
 REGION=$(curl -s http://169.254.169.254/metadata/v1/region)
-VOLUME_NAME="takeout-scratch-$(date +%Y%m%d-%H%M%S)"
+VOLUME_NAME="takeout-scratch-$DROPLET_ID"
 
 echo "Creating volume $VOLUME_NAME in region $REGION..."
 
