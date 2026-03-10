@@ -3,6 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+LOCAL_TZ="$(readlink /etc/localtime | sed 's|.*zoneinfo/||')"
 DO_REGION="${DO_REGION:-nyc3}"
 DO_SSH_KEY="${DO_SSH_KEY:-$(doctl compute ssh-key list --format ID --no-header | head -n 1)}"
 DO_TOKEN="${DIGITALOCEAN_ACCESS_TOKEN:-$(doctl auth token)}"
@@ -42,6 +43,7 @@ echo "Launching setup in background..."
 ssh $SSH_OPTS root@"$DROPLET_IP" "
   export DIGITALOCEAN_ACCESS_TOKEN='$DO_TOKEN'
   export REMOTE_DIR='$REMOTE_DIR'
+  export LOCAL_TZ='$LOCAL_TZ'
   nohup bash $STAGING/run.sh > /root/run.log 2>&1 &
 "
 
