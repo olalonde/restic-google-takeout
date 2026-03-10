@@ -12,7 +12,9 @@ total_start=$(date +%s)
 # First, download takeout
 log "Starting rclone download"
 step_start=$(date +%s)
-rclone --config ./rclone.conf copy --progress gdrive:/Takeout ./Takeout
+RCLONE_PROGRESS=""
+[[ -t 1 ]] && RCLONE_PROGRESS="--progress"  # only use --progress when running interactively
+rclone --config ./rclone.conf copy $RCLONE_PROGRESS gdrive:/Takeout ./Takeout
 step_end=$(date +%s)
 log "rclone download done ($(( step_end - step_start ))s)"
 
