@@ -1,3 +1,4 @@
+export RCLONE_CONFIG="./rclone.conf"
 export RESTIC_HOST="hostname"
 export RESTIC_REPOSITORY="b2:your-bucket:restic/google-takeout"
 export RESTIC_PASSWORD="your restic password"
